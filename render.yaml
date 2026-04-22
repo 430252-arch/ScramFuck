@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: scramfuck-backend
+    runtime: node
+    region: oregon
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 18
+      - key: JWT_SECRET
+        generateValue: true        # Render auto-generates a secure random value
+      - key: FRONTEND_URL
+        sync: false                # You fill this in after deploying frontend
+      - key: BACKEND_URL
+        sync: false                # You fill this in — your Render service URL
+      - key: DATA_DIR
+        value: /data
+    disk:
+      name: scramfuck-data
+      mountPath: /data
+      sizeGB: 1
